@@ -12,5 +12,7 @@ import jakarta.persistence.Id;
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;}
+    private Long mealId;
+    private String mealName;
+}
+
