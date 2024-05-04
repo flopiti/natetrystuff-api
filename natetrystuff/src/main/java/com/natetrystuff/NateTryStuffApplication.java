@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"package com.natetrystuff.Meal, package com.natetrystuff"})
+@ComponentScan(basePackages = {"com.natetrystuff.Meal, package com.natetrystuff,  com.natetrystuff.MealSchedule"})
 public class NateTryStuffApplication {
 
 	public static void main(String[] args) {
