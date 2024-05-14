@@ -3,6 +3,7 @@ package com.natetrystuff.MealIngredient;
 
 import lombok.Data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.natetrystuff.Ingredient.Ingredient;
 import com.natetrystuff.Meal.Meal;
 
@@ -23,6 +24,7 @@ public class MealIngredient {
     @Column(name = "meal_ingredient_id") // Ensure column name matches database
     private Long MealIngredientId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "meal_id")
     private Meal meal;

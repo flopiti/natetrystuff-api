@@ -20,7 +20,7 @@ import java.util.List;
         }
     
         @PostMapping
-        public ResponseEntity<Meal> addMeal(@RequestBody Meal meal) {
+        public ResponseEntity<Meal> addMeal(@RequestBody MealDTO meal) {
             Meal newMeal = mealService.create(meal);
             return new ResponseEntity<>(newMeal, HttpStatus.CREATED);
         }
