@@ -11,6 +11,7 @@ import com.natetrystuff.MealSchedule.MealScheduleService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,11 +46,17 @@ public class MealService {
         Meal savedMeal = mealRepository.save(newMeal);
         List<MealIngredient> mealIngredientsList = new ArrayList<>();
         meal.getMealIngredients().forEach(mealIngredient -> {
-            Ingredient ingredient = new Ingredient();
-            ingredient.setIngredientName(mealIngredient.getIngredientName());
-            Ingredient ingredientSaved =ingredientService.createIngredient(ingredient);
+            Ingredient ingredient;
+            Ingredient existingIngredient = ingredientService.findByName(mealIngredient.getIngredientName());
+            if (existingIngredient != null) {
+                ingredient = existingIngredient;
+            } else {
+                ingredient = new Ingredient();
+                ingredient.setIngredientName(mealIngredient.getIngredientName());
+                ingredient = ingredientService.createIngredient(ingredient);
+            }
             MealIngredient mealIngredientNew = new MealIngredient();
-            mealIngredientNew.setIngredient(ingredientSaved);
+            mealIngredientNew.setIngredient(ingredient);
             mealIngredientNew.setQuantity(mealIngredient.getQuantity());
             mealIngredientNew.setUnit(mealIngredient.getUnit());   
             mealIngredientNew.setMeal(newMeal);
@@ -58,11 +65,6 @@ public class MealService {
         });
         savedMeal.setMealIngredients(mealIngredientsList);
         return savedMeal;
-        // meal.getMealIngredients().forEach(mealIngredient -> {
-                    
-        //             mealIngredientService.createMealIngredient(mealIngredient);
-        //         });
-        //         return meal;
     }
 
 

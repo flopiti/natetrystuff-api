@@ -21,6 +21,10 @@ public class IngredientService {
         return ingredientRepository.findById(id).orElse(null);
     }
 
+    public Ingredient findByName(String ingredientName) {
+        return ingredientRepository.findByIngredientName(ingredientName);
+    }
+
     public Ingredient createIngredient(Ingredient ingredient) {
         return ingredientRepository.save(ingredient);
     }
