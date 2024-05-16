@@ -23,7 +23,7 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        run: ls && mvn clean package
+        run: cd natetrystuff && mvn clean package
 
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@v0.1.7
