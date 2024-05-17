@@ -28,6 +28,9 @@ jobs:
       - name: List output of build
         run: ls -l natetrystuff/target/
       
+      - name: List files in the target directory
+        run: ls -la ${{ github.workspace }}/natetrystuff/target/
+
       - name: Copy JAR and Service File to DigitalOcean
         uses: appleboy/ssh-action@v0.1.7
         with:
