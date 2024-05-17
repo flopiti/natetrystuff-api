@@ -46,5 +46,5 @@ jobs:
         run: scp -v natetrystuff/target/natetrystuff-0.0.1-SNAPSHOT.jar ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }}:/apps/natetrystuff-api/
         
       - name: Restart Service
-        run: ssh ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} 'sudo systemctl restart natetrystuff-api.service'
+        run: ssh ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }} ' systemctl restart natetrystuff-api.service'
       
