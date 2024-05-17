@@ -25,6 +25,15 @@ jobs:
       - name: Build with Maven
         run: cd natetrystuff && mvn clean package -DskipTests
 
+      - name: Copy JAR to DigitalOcean Droplet
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
+          source: "natetrystuff/target/natetrystuff-api.jar"
+          target: "/apps/natetrystuff-api/"
+
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@v0.1.7
         with:
