@@ -27,14 +27,40 @@ jobs:
         
       - name: List output of build
         run: ls -l natetrystuff/target/
-
-      - name: Deploy to DigitalOcean
+      
+      - name: Copy JAR and Service File to DigitalOcean
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.DROPLET_HOST }}
           username: ${{ secrets.DROPLET_USERNAME }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            sudo systemctl stop natetrystuff-api.service
-            cp /apps/natetrystuff-api/natetrystuff-0.0.1-SNAPSHOT.jar /apps/natetrystuff-api/natetrystuff-api.jar
-            sudo systemctl start natetrystuff-api.service
+            # Transfer the jar file
+            scp natetrystuff/target/natetrystuff-0.0.1-SNAPSHOT.jar ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }}:/apps/natetrystuff-api/
+            
+            # Create and transfer the service file
+            echo "[Unit]
+            Description=Nate Try Stuff API Service
+            After=network.target
+      
+            [Service]
+            User=${{ secrets.DROPLET_USERNAME }}
+            ExecStart=/usr/bin/java -jar /apps/natetrystuff-api/natetrystuff-0.0.1-SNAPSHOT.jar
+            SuccessExitStatus=143
+      
+            [Install]
+            WantedBy=multi-user.target" > natetrystuff-api.service
+            scp natetrystuff-api.service ${{ secrets.DROPLET_USERNAME }}@${{ secrets.DROPLET_HOST }}:/etc/systemd/system/
+      
+      # - name: Enable and Start Service on DigitalOcean
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: ${{ secrets.DROPLET_HOST }}
+      #     username: ${{ secrets.DROPLET_USERNAME }}
+      #     key: ${{ secrets.DROPLET_SSH_KEY }}
+      #     script: |
+      #       # Reload systemd, enable and start the service
+      #       sudo systemctl daemon-reload
+      #       sudo systemctl enable natetrystuff-api.service
+      #       sudo systemctl start natetrystuff-api.service
+      
