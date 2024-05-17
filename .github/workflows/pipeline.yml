@@ -28,15 +28,6 @@ jobs:
       - name: List output of build
         run: ls -l natetrystuff/target/
 
-      - name: Copy JAR to DigitalOcean Droplet
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.DROPLET_HOST }}
-          username: ${{ secrets.DROPLET_USERNAME }}
-          key: ${{ secrets.DROPLET_SSH_KEY }}
-          source: "natetrystuff/target/natetrystuff-0.0.1-SNAPSHOT.jar"
-          target: "/apps/natetrystuff-api/"
-
       - name: Deploy to DigitalOcean
         uses: appleboy/ssh-action@v0.1.7
         with:
@@ -44,7 +35,6 @@ jobs:
           username: ${{ secrets.DROPLET_USERNAME }}
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
-            cd /apps/natetrystuff-api
             sudo systemctl stop natetrystuff-api.service
-            cp target/natetrystuff-api.jar /apps/natetrystuff-api/natetrystuff-api.jar
+            cp /apps/natetrystuff-api/natetrystuff-0.0.1-SNAPSHOT.jar /apps/natetrystuff-api/natetrystuff-api.jar
             sudo systemctl start natetrystuff-api.service
