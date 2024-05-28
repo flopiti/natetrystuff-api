@@ -32,8 +32,9 @@ public class MealService {
         this.ingredientService = ingredientService;
     }
 
-    public List<Meal> listAllMeals() {
-        return mealRepository.findAll();
+    public List<MealDTO> listAllMeals() {
+        List<Meal> meals = mealRepository.findAll();
+        return meals.stream().map(Meal::getDTO).collect(Collectors.toList());
     }
 
     public Meal getMealById(Long id) {

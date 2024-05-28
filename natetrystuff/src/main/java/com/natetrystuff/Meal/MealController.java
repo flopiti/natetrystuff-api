@@ -15,7 +15,7 @@ import java.util.List;
         }
     
         @GetMapping
-        public List<Meal> getAllMeals() {
+        public List<MealDTO> getAllMeals() {
             return mealService.listAllMeals();
         }
     
