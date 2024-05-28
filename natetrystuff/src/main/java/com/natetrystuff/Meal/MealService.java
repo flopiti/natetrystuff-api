@@ -11,7 +11,6 @@ import com.natetrystuff.MealSchedule.MealScheduleService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,10 +21,10 @@ public class MealService {
     private final MealIngredientService mealIngredientService;
     private final IngredientService ingredientService;
 
-    public MealService(MealRepository mealRepository, 
-    MealScheduleService mealScheduleService, 
-    MealIngredientService mealIngredientService, 
-    IngredientService ingredientService) {
+    public MealService(MealRepository mealRepository,
+                       MealScheduleService mealScheduleService,
+                       MealIngredientService mealIngredientService,
+                       IngredientService ingredientService) {
         this.mealRepository = mealRepository;
         this.mealScheduleService = mealScheduleService;
         this.mealIngredientService = mealIngredientService;
@@ -41,7 +40,7 @@ public class MealService {
         return mealRepository.findById(id).orElse(null);
     }
 
-    public Meal create(MealDTO meal) {
+    public MealDTO create(MealDTO meal) {
         Meal newMeal = new Meal();
         newMeal.setMealName(meal.getMealName());
         Meal savedMeal = mealRepository.save(newMeal);
@@ -59,21 +58,44 @@ public class MealService {
             MealIngredient mealIngredientNew = new MealIngredient();
             mealIngredientNew.setIngredient(ingredient);
             mealIngredientNew.setQuantity(mealIngredient.getQuantity());
-            mealIngredientNew.setUnit(mealIngredient.getUnit());   
+            mealIngredientNew.setUnit(mealIngredient.getUnit());
             mealIngredientNew.setMeal(newMeal);
             MealIngredient savedMealIngredient = mealIngredientService.createMealIngredient(mealIngredientNew);
             mealIngredientsList.add(savedMealIngredient);
         });
         savedMeal.setMealIngredients(mealIngredientsList);
-        return savedMeal;
+        return savedMeal.getDTO();
     }
 
-
-    public Meal updateMeal(Long id, Meal mealDetails) {
+    public MealDTO updateMeal(Long id, MealDTO mealDetails) {
         Meal existingMeal = mealRepository.findById(id).orElse(null);
         if (existingMeal != null) {
             existingMeal.setMealName(mealDetails.getMealName());
-            return mealRepository.save(existingMeal);
+
+            List<MealIngredient> existingIngredients = existingMeal.getMealIngredients();
+            existingIngredients.forEach(mealIngredient -> mealIngredientService.deleteMealIngredient(mealIngredient.getMealIngredientId()));
+            List<MealIngredient> newMealIngredientsList = new ArrayList<>();
+            mealDetails.getMealIngredients().forEach(mealIngredient -> {
+                Ingredient ingredient;
+                Ingredient existingIngredient = ingredientService.findByName(mealIngredient.getIngredientName());
+                if (existingIngredient != null) {
+                    ingredient = existingIngredient;
+                } else {
+                    ingredient = new Ingredient();
+                    ingredient.setIngredientName(mealIngredient.getIngredientName());
+                    ingredient = ingredientService.createIngredient(ingredient);
+                }
+                MealIngredient mealIngredientNew = new MealIngredient();
+                mealIngredientNew.setIngredient(ingredient);
+                mealIngredientNew.setQuantity(mealIngredient.getQuantity());
+                mealIngredientNew.setUnit(mealIngredient.getUnit());
+                mealIngredientNew.setMeal(existingMeal);
+                MealIngredient savedMealIngredient = mealIngredientService.createMealIngredient(mealIngredientNew);
+                newMealIngredientsList.add(savedMealIngredient);
+            });
+            existingMeal.setMealIngredients(newMealIngredientsList);
+            Meal updatedMeal = mealRepository.save(existingMeal);
+            return updatedMeal.getDTO(); 
         }
         // throw exception if meal not found
         throw new RuntimeException("Meal not found with id " + id);
@@ -81,12 +103,12 @@ public class MealService {
 
     public void delete(Long id) {
         List<MealSchedule> schedules = mealScheduleService.listAllSchedules().stream()
-        .filter(meal -> meal.getMeal().getMealId().equals(id)).collect(Collectors.toList());
+                .filter(meal -> meal.getMeal().getMealId().equals(id)).collect(Collectors.toList());
 
         mealScheduleService.listAllSchedules().stream()
-            .filter(meal -> meal.getMeal().getMealId().equals(id))
-            .forEach(meal -> mealScheduleService.deleteSchedule(meal.getScheduleId()));
-    
+                .filter(meal -> meal.getMeal().getMealId().equals(id))
+                .forEach(meal -> mealScheduleService.deleteSchedule(meal.getScheduleId()));
+
         mealRepository.deleteById(id);
     }
 }
