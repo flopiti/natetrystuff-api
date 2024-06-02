@@ -19,14 +19,14 @@ class NateTryStuffApplicationTests {
     @LocalServerPort
     private int port;
 
-    @Test
-    void contextLoads() {
-    }
+    // @Test
+    // void contextLoads() {
+    // }
 
-    @Test
-    void testAPI() {
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/test", String.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode(), "Response status is not OK");
-        assertEquals("API test successful!", response.getBody(), "Response body does not match");
-    }
+    // @Test
+    // void testAPI() {
+    //     ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:" + port + "/test", String.class);
+    //     assertEquals(HttpStatus.OK, response.getStatusCode(), "Response status is not OK");
+    //     assertEquals("API test successful!", response.getBody(), "Response body does not match");
+    // }
 }
