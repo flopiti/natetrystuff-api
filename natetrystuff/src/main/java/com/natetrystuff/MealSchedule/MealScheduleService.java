@@ -3,10 +3,14 @@ package com.natetrystuff.MealSchedule;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import com.natetrystuff.Meal.Meal;
 import com.natetrystuff.Meal.MealRepository;
+import com.natetrystuff.MealIngredient.MealIngredient;
 
 @Service
 public class MealScheduleService {
@@ -56,5 +60,14 @@ public class MealScheduleService {
 
     public void deleteSchedule(Long id) {
         mealScheduleRepository.deleteById(id);
+    }
+
+    public List<MealIngredient> getGroceryList(LocalDateTime startDate, LocalDateTime endDate) {
+        List<MealSchedule> schedules = mealScheduleRepository.findByScheduledTimeBetween(startDate, endDate);
+        List<MealIngredient> groceryList = new ArrayList<>();
+        for (MealSchedule schedule : schedules) {
+            groceryList.addAll(schedule.getMeal().getMealIngredients());
+        }
+        return groceryList;
     }
 }
