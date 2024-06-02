@@ -6,7 +6,6 @@ import com.natetrystuff.Ingredient.Ingredient;
 import com.natetrystuff.Ingredient.IngredientService;
 import com.natetrystuff.MealIngredient.MealIngredient;
 import com.natetrystuff.MealIngredient.MealIngredientService;
-import com.natetrystuff.MealSchedule.MealSchedule;
 import com.natetrystuff.MealSchedule.MealScheduleService;
 
 import java.util.ArrayList;
@@ -102,7 +101,7 @@ public class MealService {
     }
 
     public void delete(Long id) {
-        List<MealSchedule> schedules = mealScheduleService.listAllSchedules().stream()
+        mealScheduleService.listAllSchedules().stream()
                 .filter(meal -> meal.getMeal().getMealId().equals(id)).collect(Collectors.toList());
 
         mealScheduleService.listAllSchedules().stream()

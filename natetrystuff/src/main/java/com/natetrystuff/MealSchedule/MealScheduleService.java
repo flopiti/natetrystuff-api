@@ -66,7 +66,22 @@ public class MealScheduleService {
         List<MealSchedule> schedules = mealScheduleRepository.findByScheduledTimeBetween(startDate, endDate);
         List<MealIngredient> groceryList = new ArrayList<>();
         for (MealSchedule schedule : schedules) {
-            groceryList.addAll(schedule.getMeal().getMealIngredients());
+            List<MealIngredient> mealIngredients = schedule.getMeal().getMealIngredients();
+            groceryList.addAll(mealIngredients);
+        }
+
+        for(int i = 0; i < groceryList.size(); i++) {
+            for(int j = i + 1; j < groceryList.size(); j++) {
+
+                Long ingredientId1 = groceryList.get(i).getIngredient().getIngredientId();
+                Long ingredientId2 = groceryList.get(j).getIngredient().getIngredientId();
+
+                if(ingredientId1 == ingredientId2 && groceryList.get(i).getUnit().equals(groceryList.get(j).getUnit())) {
+                    groceryList.get(i).setQuantity(groceryList.get(i).getQuantity() + groceryList.get(j).getQuantity());
+                    groceryList.remove(j);
+                    j--;
+                }
+            }
         }
         return groceryList;
     }
