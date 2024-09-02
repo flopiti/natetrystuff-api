@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 
 @Entity
 @Data
@@ -25,4 +26,7 @@ public class MealSchedule {
     private Meal meal;
 
     private LocalDateTime scheduledTime;
+
+    @Column(nullable = true)
+    private String occasion;
 }
