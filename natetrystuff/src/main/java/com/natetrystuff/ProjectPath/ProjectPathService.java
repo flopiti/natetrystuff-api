@@ -21,8 +21,11 @@ public class ProjectPathService {
         return projectPathRepository.save(projectPath);
     }
 
-    public void deleteProjectPath(Long id) {
-        projectPathRepository.deleteById(id);
+
+
+    public void deleteProjectPath(String path) {
+        ProjectPath projectPath = projectPathRepository.findByPath(path);
+        projectPathRepository.deleteById(projectPath.getId());
     }
 
 }

@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjectPathRepository extends JpaRepository<ProjectPath, Long> {
+    ProjectPath findByPath(String path);
 }

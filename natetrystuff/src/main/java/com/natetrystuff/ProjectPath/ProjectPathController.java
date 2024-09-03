@@ -33,10 +33,10 @@ public class ProjectPathController {
         return new ResponseEntity<>(newProjectPath, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteProjectPath(@PathVariable Long id) {
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> deleteProjectPath(@RequestBody ProjectPath projectPath) {
         try {
-            projectPathService.deleteProjectPath(id);
+            projectPathService.deleteProjectPath(projectPath.getPath());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
