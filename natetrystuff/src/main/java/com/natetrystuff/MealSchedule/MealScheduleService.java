@@ -1,8 +1,6 @@
 package com.natetrystuff.MealSchedule;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,22 +35,16 @@ public class MealScheduleService {
             .orElseThrow(() -> new RuntimeException("Meal not found with id " + mealSchedule.getMeal().getMealId()));
         mealSchedule.setMeal(meal);
 
-        // Convert ZonedDateTime to LocalDateTime before setting it
-        ZonedDateTime zonedDateTime = mealSchedule.getScheduledTime().atZone(ZoneId.of("America/New_York"));
-        LocalDateTime localDateTime = zonedDateTime.toLocalDateTime();
-        mealSchedule.setScheduledTime(localDateTime);
-        
+        mealSchedule.setPrepared(false);
         return mealScheduleRepository.save(mealSchedule);
     }
 
     public MealSchedule updateSchedule(Long id, MealSchedule mealScheduleDetails) {
         MealSchedule existingSchedule = mealScheduleRepository.findById(id).orElse(null);
         if (existingSchedule != null) {
-            existingSchedule.setMeal(mealScheduleDetails.getMeal());
-            // Convert ZonedDateTime to LocalDateTime before setting it
-            ZonedDateTime zonedDateTime = mealScheduleDetails.getScheduledTime().atZone(ZoneId.of("America/New_York"));
-            LocalDateTime localDateTime = zonedDateTime.toLocalDateTime();
-            existingSchedule.setScheduledTime(localDateTime);
+            existingSchedule.setScheduledTime(mealScheduleDetails.getScheduledTime());
+            existingSchedule.setOccasion(mealScheduleDetails.getOccasion());
+            existingSchedule.setPrepared(mealScheduleDetails.isPrepared());
             return mealScheduleRepository.save(existingSchedule);
         }
         throw new RuntimeException("MealSchedule not found with id " + id);
