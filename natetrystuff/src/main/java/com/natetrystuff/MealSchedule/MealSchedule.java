@@ -29,4 +29,7 @@ public class MealSchedule {
 
     @Column(nullable = true)
     private String occasion;
+
+    @Column(nullable = false)
+    private boolean prepared = false; // New field
 }
