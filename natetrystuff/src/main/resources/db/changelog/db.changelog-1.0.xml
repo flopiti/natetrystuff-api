@@ -5,5 +5,7 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <include file="db/changelog/db.changelog-1.0.xml"/>
+    <changeSet id="1" author="flopiti">
+        <renameTable oldTableName="meal_schedule" newTableName="meal_schedules"/>
+    </changeSet>
 </databaseChangeLog>

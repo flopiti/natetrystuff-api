@@ -13,9 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
+import jakarta.persistence.Table;
 
 @Entity
 @Data
+@Table(name = "meal_schedules")
 public class MealSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
