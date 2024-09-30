@@ -80,4 +80,8 @@ public class MealScheduleService {
         }
         return groceryList;
     }
+
+    public List<MealSchedule> getMealSchedulesBetweenDates(LocalDateTime startDate, LocalDateTime endDate) {
+        return mealScheduleRepository.findByScheduledTimeBetween(startDate, endDate);
+    }
 }
