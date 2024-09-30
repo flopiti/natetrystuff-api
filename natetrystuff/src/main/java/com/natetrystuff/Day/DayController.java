@@ -47,5 +47,12 @@ public class DayController {
     public ResponseEntity<Day> updateDay(@PathVariable Long id, @RequestBody Day dayDetails) {
         Day updatedDay = dayService.updateDay(id, dayDetails);
         return new ResponseEntity<>(updatedDay, HttpStatus.OK);
+    }
+
+    // New endpoint to get the number of office days in a given month
+    @GetMapping("/office-days/{year}/{month}")
+    public ResponseEntity<Long> getNumberOfOfficeDaysInMonth(@PathVariable int year, @PathVariable int month) {
+        long numberOfOfficeDays = dayService.getNumberOfOfficeDaysInMonth(year, month);
+        return new ResponseEntity<>(numberOfOfficeDays, HttpStatus.OK);
     }    
 }

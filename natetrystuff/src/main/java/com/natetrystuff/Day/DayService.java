@@ -1,5 +1,7 @@
 package com.natetrystuff.Day;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -39,4 +41,13 @@ public class DayService {
         dayRepository.deleteById(id);
     }
     
+    // New method to get the number of office days in a given month
+    public long getNumberOfOfficeDaysInMonth(int year, int month) {
+        YearMonth yearMonth = YearMonth.of(year, month);
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+        return dayRepository.findAll().stream()
+            .filter(day -> !day.getDate().isBefore(startDate) && !day.getDate().isAfter(endDate) && day.isInOffice())
+            .count();
+    }
 }
