@@ -1,5 +1,6 @@
 package com.natetrystuff.MealSchedule;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,14 +30,18 @@ public class MealScheduleController {
     }
 
     @GetMapping
-    public List<MealSchedule> getAllSchedules() {
+    public List<MealSchedule> getAllSchedules(@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                              @RequestParam(value = "endDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+        if (startDate != null && endDate != null) {
+            return mealScheduleService.getMealSchedulesBetweenDates(startDate, endDate);
+        }
         return mealScheduleService.listAllSchedules();
     }
 
     @GetMapping("/get-groceries")
     public List<MealIngredient> getGroceryList(
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return mealScheduleService.getGroceryList(startDate, endDate);
     }
     @GetMapping("/{id}")
