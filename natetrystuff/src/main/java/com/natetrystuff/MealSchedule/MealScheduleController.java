@@ -1,5 +1,6 @@
 package com.natetrystuff.MealSchedule;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class MealScheduleController {
 
     @GetMapping("/get-groceries")
     public List<MealIngredient> getGroceryList(
-            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate) {
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         return mealScheduleService.getGroceryList(startDate, endDate);
     }
     @GetMapping("/{id}")

@@ -1,5 +1,6 @@
 package com.natetrystuff.MealSchedule;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +55,10 @@ public class MealScheduleService {
         mealScheduleRepository.deleteById(id);
     }
 
-    public List<MealIngredient> getGroceryList(LocalDateTime startDate, LocalDateTime endDate) {
-        List<MealSchedule> schedules = mealScheduleRepository.findByScheduledTimeBetween(startDate, endDate);
+    public List<MealIngredient> getGroceryList(LocalDate startDate, LocalDate endDate) {
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(23, 59, 59);
+        List<MealSchedule> schedules = mealScheduleRepository.findByScheduledTimeBetween(startDateTime, endDateTime);
         List<MealIngredient> groceryList = new ArrayList<>();
         for (MealSchedule schedule : schedules) {
             List<MealIngredient> mealIngredients = schedule.getMeal().getMealIngredients();
