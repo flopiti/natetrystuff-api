@@ -42,6 +42,7 @@ public class MealService {
     public MealDTO create(MealDTO meal) {
         Meal newMeal = new Meal();
         newMeal.setMealName(meal.getMealName());
+        newMeal.setImageUrl(meal.getImageUrl()); // setting image URL
         Meal savedMeal = mealRepository.save(newMeal);
         List<MealIngredient> mealIngredientsList = new ArrayList<>();
         meal.getMealIngredients().forEach(mealIngredient -> {
@@ -70,6 +71,7 @@ public class MealService {
         Meal existingMeal = mealRepository.findById(id).orElse(null);
         if (existingMeal != null) {
             existingMeal.setMealName(mealDetails.getMealName());
+            existingMeal.setImageUrl(mealDetails.getImageUrl()); // setting image URL
 
             List<MealIngredient> existingIngredients = existingMeal.getMealIngredients();
             existingIngredients.forEach(mealIngredient -> mealIngredientService.deleteMealIngredient(mealIngredient.getMealIngredientId()));

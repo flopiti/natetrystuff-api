@@ -2,12 +2,12 @@ package com.natetrystuff.Meal;
 
 import java.util.List;
 
-
 import lombok.Data;
 @Data
 public class MealDTO {
     private Long mealId;
     private String mealName;
+    private String imageUrl; // new field for image URL
     private List<MealIngredientDTO> mealIngredients;
 
     @Data

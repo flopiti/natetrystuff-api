@@ -30,11 +30,15 @@ public class Meal {
 
     @Column
     private String mealName;
+    
+    @Column
+    private String imageUrl; // new field for image URL
 
     public MealDTO getDTO() {
         MealDTO dto = new MealDTO();
         dto.setMealId(this.mealId);
         dto.setMealName(this.mealName);
+        dto.setImageUrl(this.imageUrl); // set image URL
         dto.setMealIngredients(this.mealIngredients.stream()
             .map(ingredient -> {
                 MealDTO.MealIngredientDTO ingredientDTO = new MealDTO.MealIngredientDTO();
