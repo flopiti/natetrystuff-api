@@ -34,7 +34,7 @@ public class UserService {
         }
 
         return userRepository.save(user);
-    }
+    }  
 
     public Optional<User> getUserByAuth0Id(String auth0Id) {
         return userRepository.findByAuth0Id(auth0Id);
