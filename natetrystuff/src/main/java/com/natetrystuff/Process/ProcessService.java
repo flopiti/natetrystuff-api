@@ -1,6 +1,7 @@
 package com.natetrystuff.Process;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -8,6 +9,7 @@ public class ProcessService {
 
     private final ProcessRepository processRepository;
 
+    @Autowired
     public ProcessService(ProcessRepository processRepository) {
         this.processRepository = processRepository;
     }
