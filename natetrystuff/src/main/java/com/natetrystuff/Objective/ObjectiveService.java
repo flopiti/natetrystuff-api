@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,12 @@ public class ObjectiveService {
         return objectiveRepository.save(objective);
     }
 
-    public Optional<Objective> getObjectiveWithLowestId() {
+    // Updated to return a list
+    public List<Objective> getObjectiveWithLowestId() {
         return objectiveRepository.findAll().stream()
-                .min(Comparator.comparingLong(Objective::getObjectiveId));
+                .min(Comparator.comparingLong(Objective::getObjectiveId))
+                .map(Collections::singletonList)
+                .orElse(Collections.emptyList());
     }
 
     public boolean completeObjective(Long objectiveId) {
