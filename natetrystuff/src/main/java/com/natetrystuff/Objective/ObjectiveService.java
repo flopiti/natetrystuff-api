@@ -23,6 +23,7 @@ public class ObjectiveService {
 
     public Optional<Objective> getObjectiveWithLowestId() {
         return objectiveRepository.findAll().stream()
+                .filter(objective -> !objective.isFinished())
                 .min(Comparator.comparingLong(Objective::getObjectiveId));
     }
 
