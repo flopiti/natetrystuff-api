@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @Entity
@@ -22,4 +25,7 @@ public class Objective {
 
     @Column
     private boolean finished;
+
+    @OneToMany(mappedBy = "objective")
+    private List<Task> tasks = new ArrayList<>();
 }
