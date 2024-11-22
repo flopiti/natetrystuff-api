@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
+
+import com.natetrystuff.Task.Task;
+
 import java.util.ArrayList;
 
 @Data
