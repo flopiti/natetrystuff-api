@@ -15,11 +15,11 @@ import jakarta.persistence.Id;
 public class Objective {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long objectiveId;
 
     @Column
     private String finishedState;
-    
+
     @Column
     private boolean finished;
 }
