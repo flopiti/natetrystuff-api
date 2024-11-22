@@ -62,7 +62,19 @@
 				<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			        <plugin>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-maven-plugin</artifactId>
+            <version>4.23.0</version>
+            <configuration>
+                <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+                <url>jdbc:mysql://localhost:3306/natetrystuff</url>
+                <username>root</username>
+                <password>password</password>
+            </configuration>
+        </plugin>
 		</plugins>
+
 	</build>
 
 </project>
