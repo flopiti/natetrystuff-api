@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.natetrystuff.Task.Task;
 
 import java.util.ArrayList;
@@ -30,5 +31,6 @@ public class Objective {
     private boolean finished;
 
     @OneToMany(mappedBy = "objective")
+    @JsonManagedReference
     private List<Task> tasks = new ArrayList<>();
 }
