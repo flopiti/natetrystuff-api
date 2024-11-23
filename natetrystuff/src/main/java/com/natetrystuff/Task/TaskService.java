@@ -27,15 +27,15 @@ public class TaskService {
                 .min(Comparator.comparingLong(Task::getTaskId));
     }
 
-    public boolean completeTask(Long taskId) {
+    public Task completeTask(Long taskId) {
         Optional<Task> task = taskRepository.findById(taskId);
         if (task.isPresent()) {
             Task t = task.get();
             t.setFinished(true);
             taskRepository.save(t);
-            return true;
+            return task.get();
         }
-        return false;
+        return task.get();
     }
 
     public void deleteTask(Long taskId) {

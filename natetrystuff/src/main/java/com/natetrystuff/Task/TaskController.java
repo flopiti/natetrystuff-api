@@ -27,4 +27,14 @@ public class TaskController {
         Task createdTask = taskService.addTaskToObjective(task, objectiveId);
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
+
+    @PutMapping("/{taskId}/complete")
+    public ResponseEntity<Task> completeTask(@PathVariable Long taskId) {
+    Task updatedTask = taskService.completeTask(taskId);
+    if (updatedTask != null) {
+        return new ResponseEntity<>(updatedTask, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+}
 }
