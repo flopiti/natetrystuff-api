@@ -41,4 +41,13 @@ public class TaskService {
     public void deleteTask(Long taskId) {
         taskRepository.deleteById(taskId);
     }
+
+    public List<Task> getTasksForObjective(Long objectiveId) {
+        return taskRepository.findByObjectiveObjectiveId(objectiveId);
+    }
+
+    public Task addTaskToObjective(Task task, Long objectiveId) {
+        // Assuming the task's objective is already set before adding
+        return taskRepository.save(task);
+    }
 }
