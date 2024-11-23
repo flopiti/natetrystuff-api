@@ -27,6 +27,10 @@ public class ObjectiveService {
                 .min(Comparator.comparingLong(Objective::getObjectiveId));
     }
 
+    public List<Objective> getAllObjectives() {
+        return objectiveRepository.findAll();
+    }
+
     public boolean completeObjective(Long objectiveId) {
         Optional<Objective> objective = objectiveRepository.findById(objectiveId);
         if (objective.isPresent()) {

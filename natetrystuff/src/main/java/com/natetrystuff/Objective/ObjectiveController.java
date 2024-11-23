@@ -3,6 +3,7 @@ package com.natetrystuff.Objective;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +27,12 @@ public class ObjectiveController {
         Optional<Objective> objective = objectiveService.getObjectiveWithLowestId();
         return objective.map(obj -> new ResponseEntity<>(obj, HttpStatus.OK))
                          .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Objective>> getAllObjectives() {
+        List<Objective> objectives = objectiveService.getAllObjectives();
+        return new ResponseEntity<>(objectives, HttpStatus.OK);
     }
 
     @PutMapping("/{id}/complete")
