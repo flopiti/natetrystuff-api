@@ -69,7 +69,7 @@
             <configuration>
                 <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
                 <url>jdbc:mysql://localhost:3306/natetrystuff</url>
-                <username>root</username>
+                <username>deployer</username>
                 <password>password</password>
             </configuration>
         </plugin>

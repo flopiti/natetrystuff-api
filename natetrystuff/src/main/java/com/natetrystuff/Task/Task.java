@@ -1,5 +1,6 @@
 package com.natetrystuff.Task;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.natetrystuff.Objective.Objective;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Task {
     private boolean isFinished;
 
     @ManyToOne
+    @JsonBackReference // Add this annotation
     @JoinColumn(name = "objective_id")
     private Objective objective;
 }
